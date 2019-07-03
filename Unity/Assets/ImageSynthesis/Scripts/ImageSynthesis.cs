@@ -31,7 +31,7 @@ public class ImageSynthesis : MonoBehaviour
     public bool saveNormals = true;
     public bool saveOpticalFlow;
     public string filepath = "..\\Captures";
-    public string filename = "test";
+    public string filename = "test.png";
 
     // pass configuration
     private CapturePass[] capturePasses = new CapturePass[] {

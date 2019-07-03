@@ -1,0 +1,1 @@
+This folder can be used for saving image captures, but the .gitignore file is configured to not commit any files in this directory.
