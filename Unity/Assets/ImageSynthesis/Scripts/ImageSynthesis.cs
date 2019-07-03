@@ -18,6 +18,20 @@ using System.IO;
 [RequireComponent(typeof(Camera))]
 public class ImageSynthesis : MonoBehaviour
 {
+    [Header("Shader Setup")]
+    public Shader uberReplacementShader;
+    public Shader opticalFlowShader;
+    public float opticalFlowSensitivity = 1.0f;
+
+    [Header("Save Image Capture")]
+    public bool saveImage = true;
+    public bool saveIdSegmentation = true;
+    public bool saveLayerSegmentation = true;
+    public bool saveDepth = true;
+    public bool saveNormals = true;
+    public bool saveOpticalFlow;
+    public string filepath = "..\\Captures";
+    public string filename = "test";
 
     // pass configuration
     private CapturePass[] capturePasses = new CapturePass[] {
@@ -40,11 +54,6 @@ public class ImageSynthesis : MonoBehaviour
         // impl
         public Camera camera;
     };
-
-    public Shader uberReplacementShader;
-    public Shader opticalFlowShader;
-
-    public float opticalFlowSensitivity = 1.0f;
 
     // cached materials
     private Material opticalFlowMaterial;
@@ -89,12 +98,12 @@ public class ImageSynthesis : MonoBehaviour
     }
 
 
-    static private void SetupCameraWithReplacementShader(Camera cam, Shader shader, ReplacelementModes mode)
+    static private void SetupCameraWithReplacementShader(Camera cam, Shader shader, ReplacementMode mode)
     {
         SetupCameraWithReplacementShader(cam, shader, mode, Color.black);
     }
 
-    static private void SetupCameraWithReplacementShader(Camera cam, Shader shader, ReplacelementModes mode, Color clearColor)
+    static private void SetupCameraWithReplacementShader(Camera cam, Shader shader, ReplacementMode mode, Color clearColor)
     {
         var cb = new CommandBuffer();
         cb.SetGlobalFloat("_OutputMode", (int)mode); // @TODO: CommandBuffer is missing SetGlobalInt() method
@@ -113,7 +122,7 @@ public class ImageSynthesis : MonoBehaviour
         cam.depthTextureMode = depthTextureMode;
     }
 
-    enum ReplacelementModes
+    public enum ReplacementMode
     {
         ObjectId = 0,
         CatergoryId = 1,
@@ -147,10 +156,10 @@ public class ImageSynthesis : MonoBehaviour
         opticalFlowMaterial.SetFloat("_Sensitivity", opticalFlowSensitivity);
 
         // setup command buffers and replacement shaders
-        SetupCameraWithReplacementShader(capturePasses[1].camera, uberReplacementShader, ReplacelementModes.ObjectId);
-        SetupCameraWithReplacementShader(capturePasses[2].camera, uberReplacementShader, ReplacelementModes.CatergoryId);
-        SetupCameraWithReplacementShader(capturePasses[3].camera, uberReplacementShader, ReplacelementModes.DepthCompressed, Color.white);
-        SetupCameraWithReplacementShader(capturePasses[4].camera, uberReplacementShader, ReplacelementModes.Normals);
+        SetupCameraWithReplacementShader(capturePasses[1].camera, uberReplacementShader, ReplacementMode.ObjectId);
+        SetupCameraWithReplacementShader(capturePasses[2].camera, uberReplacementShader, ReplacementMode.CatergoryId);
+        SetupCameraWithReplacementShader(capturePasses[3].camera, uberReplacementShader, ReplacementMode.DepthCompressed, Color.white);
+        SetupCameraWithReplacementShader(capturePasses[4].camera, uberReplacementShader, ReplacementMode.Normals);
         SetupCameraWithPostShader(capturePasses[5].camera, opticalFlowMaterial, DepthTextureMode.Depth | DepthTextureMode.MotionVectors);
     }
 
@@ -200,7 +209,20 @@ public class ImageSynthesis : MonoBehaviour
     private void Save(string filenameWithoutExtension, string filenameExtension, int width, int height)
     {
         foreach (var pass in capturePasses)
-            Save(pass.camera, filenameWithoutExtension + pass.name + filenameExtension, width, height, pass.supportsAntialiasing, pass.needsRescale);
+        {
+            // Perform a check to make sure that the capture pass should be saved
+            if (
+                (pass.name == "_img" && saveImage) ||
+                (pass.name == "_id" && saveIdSegmentation) ||
+                (pass.name == "_layer" && saveLayerSegmentation) ||
+                (pass.name == "_depth" && saveDepth) ||
+                (pass.name == "_normals" && saveNormals) ||
+                (pass.name == "_flow" && saveOpticalFlow)
+            )
+            {
+                Save(pass.camera, filenameWithoutExtension + pass.name + filenameExtension, width, height, pass.supportsAntialiasing, pass.needsRescale);
+            }
+        }
     }
 
     private void Save(Camera cam, string filename, int width, int height, bool supportsAntialiasing, bool needsRescale)
