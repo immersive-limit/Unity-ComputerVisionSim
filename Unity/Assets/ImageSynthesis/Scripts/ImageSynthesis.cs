@@ -112,6 +112,8 @@ public class ImageSynthesis : MonoBehaviour
         cam.SetReplacementShader(shader, "");
         cam.backgroundColor = clearColor;
         cam.clearFlags = CameraClearFlags.SolidColor;
+        cam.allowHDR = false;
+        cam.allowMSAA = false;
     }
 
     static private void SetupCameraWithPostShader(Camera cam, Material material, DepthTextureMode depthTextureMode = DepthTextureMode.None)
