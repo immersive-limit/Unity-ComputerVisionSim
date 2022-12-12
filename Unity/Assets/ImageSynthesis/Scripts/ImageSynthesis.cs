@@ -32,8 +32,12 @@ public class ImageSynthesis : MonoBehaviour
     public bool saveOpticalFlow;
     public string filepath = "..\\Captures";
     public string filename = "test2.png";
+    public string exp_name = "test2";
     public int width = 1920;
     public int height = 1080;
+    public string filename_full = "";
+
+    
 
     // pass configuration
     private CapturePass[] capturePasses = new CapturePass[] {
@@ -76,6 +80,8 @@ public class ImageSynthesis : MonoBehaviour
 
         OnCameraChange();
         OnSceneChange();
+
+        Directory.CreateDirectory(filepath + "/" + exp_name);
     }
 
     void Update() {
@@ -89,8 +95,9 @@ public class ImageSynthesis : MonoBehaviour
 
         // Vector2 gameViewSize = Handles.GetMainGameViewSize();
         // Debug.Log(gameViewSize);
-        // filename_full = "img_" + myTransform.position.x.ToString("F4") + "_" + myTransform.position.y.ToString("F4") + "_" + myTransform.position.z.ToString("F4")
-        Save(filename_full, width, height, filepath);
+        filename_full = "img_" + myTransform.position.x.ToString("F4") + "_" + myTransform.position.y.ToString("F4") + "_" + myTransform.position.z.ToString("F4") + ".png";
+        Debug.Log("filename_full : " + filename_full );
+        Save(filename_full, width, height, filepath + "/" + exp_name);
 
     }
 
@@ -202,9 +209,6 @@ public class ImageSynthesis : MonoBehaviour
 
     public void Save(string filename, int width = -1, int height = -1, string path = "")
     {
-        Debug.Log("Save .....");
-        Debug.Log(width);
-        Debug.Log(height);
         if (width <= 0 || height <= 0)
         {
             width = Screen.width;
