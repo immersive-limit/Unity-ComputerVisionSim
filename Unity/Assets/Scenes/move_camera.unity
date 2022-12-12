@@ -415,7 +415,9 @@ MonoBehaviour:
   saveNormals: 1
   saveOpticalFlow: 0
   filepath: ..\Captures
-  filename: test.png
+  filename: test2.png
+  width: 1920
+  height: 1080
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
