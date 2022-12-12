@@ -90,12 +90,7 @@ public class ImageSynthesis : MonoBehaviour
         // get camera transform
         Transform myTransform = this.transform;
         
-        // Debug.Log("Camera position -------");
-        // Debug.Log(myTransform.position);
-        // Debug.Log(myTransform.position.x.ToString("F4"));
-
-        // Vector2 gameViewSize = Handles.GetMainGameViewSize();
-        // Debug.Log(gameViewSize);
+        // save image name
         filename_full = "img" + 
                         "_" + myTransform.position.x.ToString("F4") + "_" + myTransform.position.y.ToString("F4") + "_" + myTransform.position.z.ToString("F4") + 
                         "_" + myTransform.eulerAngles.x.ToString("F4") + "_" + myTransform.eulerAngles.y.ToString("F4") + "_" + myTransform.eulerAngles.z.ToString("F4") + 

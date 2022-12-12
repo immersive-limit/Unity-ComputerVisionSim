@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+// ------------------------------------------
+// ボタンのUIです
+//
+// ボタンを押すと画像がキャプチャーされます．
+//
+
 [CustomEditor(typeof(ImageSynthesis))]
 public class ImageSaver : Editor
 {
