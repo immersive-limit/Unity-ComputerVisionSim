@@ -23,5 +23,9 @@ public class MoveCharacter : MonoBehaviour
         // pos.y += 0.01f;    // y座標へ0.01加算
         // pos.z += 0.01f;    // z座標へ0.01加算        
         myTransform.position = pos;  // 座標を設定
+
+        Vector3 rot = myTransform.eulerAngles;
+        rot.x += 0.01f;    // x座標へ0.01加算
+        myTransform.eulerAngles = rot;  // 座標を設定
     }
 }
