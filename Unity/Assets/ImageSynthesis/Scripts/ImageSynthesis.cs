@@ -31,7 +31,13 @@ public class ImageSynthesis : MonoBehaviour
     public bool saveNormals = true;
     public bool saveOpticalFlow;
     public string filepath = "..\\Captures";
-    public string filename = "test.png";
+    public string filename = "test2.png";
+    public string exp_name = "test2";
+    public int width = 1920;
+    public int height = 1080;
+    public string filename_full = "";
+
+    
 
     // pass configuration
     private CapturePass[] capturePasses = new CapturePass[] {
@@ -74,6 +80,29 @@ public class ImageSynthesis : MonoBehaviour
 
         OnCameraChange();
         OnSceneChange();
+
+        Directory.CreateDirectory(filepath + "/" + exp_name);
+    }
+
+    void Update() {
+
+        
+        // get camera transform
+        Transform myTransform = this.transform;
+        
+        // Debug.Log("Camera position -------");
+        // Debug.Log(myTransform.position);
+        // Debug.Log(myTransform.position.x.ToString("F4"));
+
+        // Vector2 gameViewSize = Handles.GetMainGameViewSize();
+        // Debug.Log(gameViewSize);
+        filename_full = "img" + 
+                        "_" + myTransform.position.x.ToString("F4") + "_" + myTransform.position.y.ToString("F4") + "_" + myTransform.position.z.ToString("F4") + 
+                        "_" + myTransform.eulerAngles.x.ToString("F4") + "_" + myTransform.eulerAngles.y.ToString("F4") + "_" + myTransform.eulerAngles.z.ToString("F4") + 
+                        ".png";
+        Debug.Log("filename_full : " + filename_full );
+        Save(filename_full, width, height, filepath + "/" + exp_name);
+
     }
 
     void LateUpdate()

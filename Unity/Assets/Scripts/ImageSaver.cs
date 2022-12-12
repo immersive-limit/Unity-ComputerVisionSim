@@ -6,6 +6,14 @@ using UnityEditor;
 [CustomEditor(typeof(ImageSynthesis))]
 public class ImageSaver : Editor
 {
+
+    // Update is called once per frame
+
+    void Update() {
+
+        Debug.Log("ImageSaver Update ...");
+    }
+
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
