@@ -10,6 +10,8 @@
 - [Coming soon](#coming-soon)
 - [Quick Start](#quick-start)
 - [Detail](#detail)
+  - [カメラを動かす](#カメラを動かす)
+  - [リアルタイム保存](#リアルタイム保存)
 - [Reference site](#reference-site)
 
 ## Introduction
@@ -33,6 +35,8 @@ Companion tutorials for this repo:
 
 
 ## Detail
+
+### カメラを動かす
 
 `Unity\Assets\Scripts\MoveCharacter.cs`でカメラを動かします．
 
@@ -70,6 +74,35 @@ public class MoveCharacter : MonoBehaviour
 
 ```
 
+
+### リアルタイム保存
+
+`Unity\Assets\ImageSynthesis\Scripts\ImageSynthesis.cs`でキャプチャー画像を保存します．
+
+
+```c#
+
+    ... 
+
+    void Update() {
+
+        
+        // get camera transform
+        Transform myTransform = this.transform;
+        
+        // save image name
+        filename_full = "img" + 
+                        "_" + myTransform.position.x.ToString("F4") + "_" + myTransform.position.y.ToString("F4") + "_" + myTransform.position.z.ToString("F4") + 
+                        "_" + myTransform.eulerAngles.x.ToString("F4") + "_" + myTransform.eulerAngles.y.ToString("F4") + "_" + myTransform.eulerAngles.z.ToString("F4") + 
+                        ".png";
+        Debug.Log("filename_full : " + filename_full );
+        Save(filename_full, width, height, filepath + "/" + exp_name);
+
+    }
+
+    ... 
+
+```
 
 ## Reference site
 
